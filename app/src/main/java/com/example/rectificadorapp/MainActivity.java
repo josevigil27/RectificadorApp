@@ -68,10 +68,12 @@ public class MainActivity extends AppCompatActivity {
             textProducto.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                 @Override
                 public void onFocusChange(View v, boolean hasFocus) {
-                    if(compruebaConexion(getApplicationContext()) == true) {
-                        ObtenerProductos();
-                    }else{
-                        Toast.makeText(getApplicationContext(),"Compruebe su conexión a internet",Toast.LENGTH_SHORT).show();
+                    if (!hasFocus) {
+                        if(compruebaConexion(getApplicationContext()) == true) {
+                            ObtenerProductos();
+                        }else{
+                            Toast.makeText(getApplicationContext(),"Compruebe su conexión a internet",Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             });
@@ -104,6 +106,9 @@ public class MainActivity extends AppCompatActivity {
     private void ObtenerProductos() {
         try {
 
+            progressDialog.setMessage("Cargando Productos... ");
+            progressDialog.show();
+
             StringRequest stringRequestObtenerProductos = new StringRequest(Request.Method.POST, HttpUri,
                     new Response.Listener<String>() {
                         @Override
@@ -131,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
                                 String mensajeApi = jsonObject.getString("mensajeobtenerproductos");
                                 textDescripcion.setText(opdescripcio);
                                 textLinea.setText(oplinea);
-                                textPrecio.setText("L." + opprecio);
+                                textPrecio.setText("L." + String.format(opprecio, "%.2f"));
                                 imageView.setImageBitmap(objectBitmap);
 
                                 progressDialog.dismiss();
