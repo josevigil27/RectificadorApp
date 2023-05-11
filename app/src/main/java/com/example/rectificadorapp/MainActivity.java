@@ -139,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
                                 textPrecio.setText("L." + String.format(opprecio, "%.2f"));
                                 imageView.setImageBitmap(objectBitmap);
 
+                                textProducto.setText("");
+                                textProducto.requestFocus();
+
                                 progressDialog.dismiss();
 
                             } catch (JSONException ex) {
